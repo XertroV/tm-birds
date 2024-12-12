@@ -39,7 +39,7 @@ void Run_FilterBlockNames() {
 }
 
 bool MatchesParts(const string &in name, string[]@ parts) {
-    uint minIx = 0;
+    int minIx = 0;
     for (uint i = 0; i < parts.Length; i++) {
         auto ix = name.IndexOf(parts[i]);
         if (ix < minIx) {
