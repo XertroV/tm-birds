@@ -50,16 +50,6 @@ void RunBirdsInit() {
     _birds.MwAddRef();
     trace("Birds loaded");
     return;
-    // auto grassFid = _GetGameFid("GameData/Stadium/GameCtnBlockInfo/GameCtnBlockInfoFlat", "Grass.EDFlat.Gbx?1021");
-    // auto grass = cast<CGameCtnBlockInfo>(grassFid.Nod);
-    // if (grass is null) {
-    //     trace('Grass not found, loading from file');
-    //     @grass = cast<CGameCtnBlockInfo>(Fids::Preload(grassFid));
-    // }
-    // grass.MwAddRef();
-    // auto grassVBG = grass.VariantBaseGround;
-    // grassVBG.MwAddRef();
-    // Dev::SetOffset(grassVBG, 0xA8, _birds);
 }
 
 // CSystemFidFile@ _GetGameFid(const string &in parentDir, const string &in fileName) {
@@ -110,7 +100,8 @@ void ApplyBirds(CGameCtnBlockInfoVariant@ variant) {
         return;
     }
     if (variant.FlockModel is null) {
-        Dev::SetOffset(variant, 0xA8, GetBirds());
+        // Dev::SetOffset(variant, 0xA8, GetBirds());
+        @variant.FlockModel = GetBirds();
         variant.FlockModel.MwAddRef();
     }
     variant.FlockEmitterLoc = mat4::Translate(vec3(16, 2, 16));
