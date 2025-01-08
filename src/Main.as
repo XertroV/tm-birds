@@ -100,9 +100,18 @@ void ApplyBirds(CGameCtnBlockInfoVariant@ variant) {
         return;
     }
     if (variant.FlockModel is null) {
-        // Dev::SetOffset(variant, 0xA8, GetBirds());
-        @variant.FlockModel = GetBirds();
-        variant.FlockModel.MwAddRef();
+        /* does not crash */
+        // GetBirds();
+
+        // doens't crash
+        Dev::SetOffset(variant, 0xA8, GetBirds());
+
+        /* crash in openplanet.dll */
+        // @variant.FlockModel = GetBirds();
+
+        if (variant.FlockModel !is null) {
+            variant.FlockModel.MwAddRef();
+        }
     }
     variant.FlockEmitterLoc = mat4::Translate(vec3(16, 2, 16));
 }
@@ -114,7 +123,11 @@ CPlugFlockModel@ GetBirds() {
         auto birdsFid = Fids::GetGame("GameData\\Stadium\\MotionEmitterFlockModel\\Birds.MotionEmitterFlockModel.Gbx");
         @_birds = cast<CPlugFlockModel>(Fids::Preload(birdsFid));
         if (_birds !is null) _birds.MwAddRef();
+        else warn("Failed to load birds");
     }
+    // if (_birds is null) {
+    //     return null;
+    // }
     return _birds;
 }
 
